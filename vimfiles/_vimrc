@@ -1,0 +1,856 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VIM Hints
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Jump to the tag under current cursort with a new window:
+"    ^Wg] or ^W]
+
+" 在 insert mode 要刪除同一 word 游標前的字元:
+"    ^W
+"
+" :<C-R><C-W>   : Pull <cword> onto command line
+" /<C-R><C-W>   : Pull <cword> onto search line
+
+" set, setlocal and setglobal 指令的不同處:
+" set:         改變全部的 buffer or window 的 global 和 local value
+" setlocal:     改變目前的 buffer or window 的 local value, 而不影響 global value
+" setglobal: 改變 global value 而不影響各 buffer or window 的 local value
+
+" 在 insert mode 要暫時切到 command mode 時用:
+"    ^O
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 定義各種變數
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:load_default_cscope_files = 0
+
+if !exists("g:python_version")
+    let g:python_version = "3"
+endif
+
+if !exists("g:make_output")
+    let g:make_output = ""
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" 將 encoding 方式設為 utf-8
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" 設定成繁體中文
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp950
+let $LANG="zh_TW.UTF-8"
+
+if has("gui_running")
+    set langmenu=en_US
+    ""set langmenu=zh_tw.utf-8
+    "" 要使用新的 encoding 須要重新載入 GVIM menu, 不然會變成亂碼
+    "source $VIMRUNTIME/delmenu.vim
+    "source $VIMRUNTIME/menu.vim
+endif
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+set shell=/bin/bash
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" use vim-plug to manager all plugins
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+call plug#begin('~/.vim/bundle')
+
+"
+" programming plugins
+"
+
+" for C/C++
+
+Plug 'vim-scripts/a.vim'
+Plug 'vim-scripts/argtextobj.vim'
+Plug 'mbbill/echofunc'
+Plug 'petRUShka/vim-opencl'
+Plug 'tpope/vim-endwise'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'tpope/vim-dispatch'
+Plug 'vim-scripts/gprof.vim'
+
+" for python
+
+Plug 'fs111/pydoc.vim', { 'for': 'py' }
+Plug 'klen/python-mode', { 'for': 'py' }
+
+" for glsl
+
+Plug 'tikhomirov/vim-glsl'
+
+" for xml
+
+Plug 'sukima/xmledit', { 'for': 'xml' }
+
+" for YouCompleteMe
+
+Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer --clang-tidy' }
+Plug 'scrooloose/syntastic'
+
+" for tags
+
+Plug 'vim-scripts/taglist.vim'
+Plug 'majutsushi/tagbar'
+
+" misc for programming
+
+Plug 'BurntSushi/ripgrep'
+
+Plug 'vim-scripts/SrcExpl'
+Plug 'scrooloose/nerdcommenter'
+Plug 'kalljohn/QFixToggle'
+
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'vhdirk/vim-cmake'
+Plug 'pboettch/vim-cmake-syntax'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'stephpy/vim-yaml'
+
+"
+" editing plugins
+"
+
+Plug 'kalljohn/SearchComplete'
+Plug 'tpope/vim-surround'
+Plug 'nelstrom/vim-qargs'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'junegunn/vim-easy-align'
+Plug 'Valloric/MatchTagAlways'
+Plug 'tpope/vim-abolish'
+Plug 'matze/vim-move'
+Plug 'coderifous/textobj-word-column.vim'
+
+Plug 'vim-scripts/YankRing.vim'
+
+Plug 'tpope/vim-repeat'
+Plug 'sjl/gundo.vim'
+Plug 'nelstrom/vim-visual-star-search'
+
+Plug 'vim-scripts/AnsiEsc.vim'
+
+" highlight hint for user
+
+Plug 'kshenoy/vim-signature'
+Plug 'bling/vim-airline'
+Plug 'luochen1990/rainbow'
+Plug 'tpope/vim-unimpaired'
+Plug 'Yggdroot/indentLine'
+Plug 'blueyed/vim-diminactive'
+
+" for Version Control System
+
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+
+"
+" for buffer/window management
+"
+
+Plug 'vim-ctrlspace/vim-ctrlspace'
+Plug 'troydm/easybuffer.vim'
+Plug 'vim-scripts/ZoomWin'
+
+"
+" file access plugins
+"
+
+Plug 'junegunn/fzf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'FelikZ/ctrlp-py-matcher'
+Plug 'tacahiroy/ctrlp-funky'
+"Plug 'Yggdroot/LeaderF'
+Plug 'vim-scripts/The-NERD-tree'
+" Trinity and cowork with NERDTree
+Plug 'wesleyche/Trinity'
+
+"
+" snipmate and its dependencies
+"
+
+"Plug 'garbas/vim-snipmate'
+"Plug 'tomtom/tlib_vim'
+"Plug 'MarcWeber/vim-addon-mw-utils'
+"Plug 'honza/vim-snippets'
+
+"
+" misc
+"
+
+Plug 'yianwillis/vimcdoc'
+
+call plug#end()
+
+filetype plugin indent on    " required
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Load the behavior of windows
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+source $VIMRUNTIME/vimrc_example.vim
+behave mswin
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Settings for Common Options
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set nobackup
+set nowritebackup
+set noswapfile
+set noundofile
+
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
+
+set cindent
+set cinoptions=:0,g0,p0,t0,(0,ws,Ws
+
+set hidden
+set showmatch
+set ignorecase
+set smartcase
+set wildignorecase
+set incsearch
+set hlsearch
+set number
+set ruler
+if has("gui_running")
+    set cursorline     " cul <= highlight the current line.
+    set spell
+else
+    set nospell
+endif
+set foldcolumn=2
+set nowrap
+set wildmenu
+set wildignore=*.o,*.obj,*~,*.py[co],*.bak,*.exe,*.swp,*.pyc,*.svn,*.git
+set magic            " for regular expressions turn magic on
+set background=dark
+set laststatus=2
+set nospell
+set previewheight=4
+set cscopequickfix=s-,g-,c-,d-,t-,e-,f-,i-
+set exrc
+set mouse=a
+set cursorline
+set undofile        " maintain undo history between sessions
+set undodir=~/.vim/undodir
+
+if has("gui_running")
+    " don't show toolbar
+    set guioptions-=T
+    " don't show menu
+    " set guioptions-=m
+endif
+
+set fileformats=unix,dos
+set guifont=Courier\ 10\ Pitch
+
+cw 10
+
+" syntax & color scheme
+syntax enable
+syntax on
+if has("gui_running")
+    colorscheme wombat256mod
+else
+    " tell vim that the terminal supports 256 colors.
+    " must set this, otherwise the airline won't show color.
+    set t_Co=256
+
+    colorscheme wombat256i
+endif
+
+" enable terminal debug feature (vim 8.1)
+if v:version > 810
+    packadd termdebug
+endif
+
+" if installed using brew. (for mac)
+set rtp+=/usr/local/opt/fzf
+
+" if installed using git.
+set rtp+=~/.fzf
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" All Plugins Settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"
+" cscope_maps
+" notice: this plugin will make vim's Ctrl-T unwork.
+"         ( vim's Ctrl-] jump to tag and Ctrl-T bring you back. )
+"         use :set nocscopetag can fix this issue.
+"         but we can use alternative keys: Ctrl-O and Ctrl-I
+"
+
+" IndentLine
+
+if has("gui_running")
+    let g:indentLine_enabled = 1
+else
+    let g:indentLine_enabled = 0
+endif
+
+
+"
+" EasyBuffer
+"
+
+let g:easybuffer_toggle_position = 'HorizontalBelow'
+let g:easybuffer_horizontal_height = '&lines/5'
+
+"
+" PyDoc
+"
+
+let g:pydoc_cmd = 'python3 -m pydoc'
+" let g:pydoc_open_cmd = 'vsplit'
+" let g:pydoc_open_cmd = 'tabnew'
+
+"
+" Tagbar
+"
+
+let g:tagbar_left = 1
+
+"
+" netrw
+"
+
+let g:netrw_cygwin = 0
+let g:netrw_scp_cmd = "scp -q"
+let g:netrw_sftp_cmd = "sftp"
+
+"
+" NERDTree
+"
+
+" N/A
+
+"
+" Omnicppcomplete
+"
+
+" N/A
+
+"
+" YouCompleteMe
+"
+
+" enable this may slow the code complete and increase system memory usage.
+let g:ycm_collect_identifiers_from_tags_files = 0
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_global_ycm_extra_conf = $HOME . "/.vim/misc/global_ycm_extra_conf.py"
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_max_diagnostics_to_display = 30
+let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_disable_for_files_larger_than_kb = 1024
+
+"
+" SnipMate
+"
+
+" N/A
+
+"
+" MatchTagAlways
+"
+
+let g:mta_use_matchparen_group = 1
+
+"
+" rainbow
+"
+
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+
+let g:rainbow_conf = {
+	\	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+	\	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+	\	'operators': '_,_',
+	\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+	\	'separately': {
+	\		'*': {},
+	\		'tex': {
+	\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+	\		},
+	\		'lisp': {
+	\			'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+	\		},
+	\		'vim': {
+	\			'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+	\		},
+	\		'html': {
+	\			'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+	\		},
+	\		'css': 0,
+    \       'cmake': 0,
+	\	}
+	\}
+
+"
+" YankRing
+"
+
+" don't use default key because <C-P> should be reserved for Ctrl-P plugin.
+let g:yankring_replace_n_pkey = '<C-Up>'
+let g:yankring_replace_n_nkey = '<C-Down>'
+
+"
+" Gundo
+"
+
+" N/A
+
+"
+" python-mode
+"
+
+let g:pymode = 1
+let g:pymode_python = 'python3'
+let g:pymode_indent = 1
+let g:pymode_motion = 1
+let g:pymode_doc = 1
+let g:pymode_doc_bind = 'K'
+let g:pymode_warning = 0
+let g:pymode_lint = 0
+let g:pymode_lint_on_write = 0
+let g:pymode_lint_ignore = "E2,W"
+let g:pymode_folding = 0
+let g:pymode_trim_whitespaces = 1
+let g:pymode_options_max_line_length = 9999
+" disable to make ycmcompleteme work correctly
+let g:pymode_rope_complete_on_dot = 0
+
+"
+" airline
+"
+
+let g:airline#extensions#tabline#enabled = 1
+
+"
+" PyMatcher for CtrlP
+"
+
+if has('python')
+    let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+endif
+
+"
+" CtrlP
+"
+
+let g:ctrlp_working_path_mode = 'a'
+
+" Set delay to prevent extra search
+let g:ctrlp_lazy_update = 350
+
+" Do not clear filenames cache, to improve CtrlP startup
+" You can manualy clear it by <F5>
+let g:ctrlp_clear_cache_on_exit = 0
+
+" Set no file limit, we are building a big project
+let g:ctrlp_max_files = 0
+
+" If ag is available use it as filename list generator instead of 'find'
+if executable("ag")
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --ignore ''.git'' --ignore ''.DS_Store'' --ignore ''node_modules'' --hidden -g ""'
+endif
+
+"
+" ctrlp-funky
+"
+
+let g:ctrlp_extensions = ['funky']
+let g:ctrlp_funky_syntax_highlight = 1
+
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+"
+" gitgutter
+"
+
+let g:gitgutter_max_signs = 99999
+let g:gitgutter_avoid_cmd_prompt_on_windows = 1
+
+"
+" dimiinactive
+"
+
+let g:diminactive_use_colorcolumn = 0
+
+"
+" vim-cmake
+"
+
+let g:cmake_install_prefix          = "/dev/shm/stage"
+let g:cmake_build_type              = "Debug"
+let g:cmake_export_compile_commands = 1
+let g:cmake_ycm_symlinks            = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Common Settings for Programming
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" auto source vimrc file after saved.
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
+
+" automaitcally show quickfix window if there are any errors.
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+" Remember info about open buffers on close
+" set viminfo^=%
+
+" 自動載入上次開啟時的 view, 包含手動建立的 fold.
+" autocmd BufWinLeave *.h silent mkview
+" autocmd BufWinEnter *.h silent loadview
+" autocmd BufWinLeave *.c silent mkview
+" autocmd BufWinEnter *.c silent loadview
+" autocmd BufWinLeave *.cpp silent mkview
+" autocmd BufWinEnter *.cpp silent loadview
+
+autocmd BufRead,BufNewFile *.cmake          set ts=4 sw=4 sts=4 et ai
+autocmd BufRead,BufNewFile *.cmake.in       set ts=4 sw=4 sts=4 et ai
+autocmd BufRead,BufNewFile CMakeLists.txt   set ts=4 sw=4 sts=4 et ai
+
+autocmd BufRead,BufNewFile *.py set fenc=UTF-8 ts=4 sw=4 sts=4 et
+
+autocmd BufRead,BufNewFile *.h   set ts=4 sw=4 sts=4 et
+autocmd BufRead,BufNewFile *.hpp set ts=4 sw=4 sts=4 et
+autocmd BufRead,BufNewFile *.inl set ts=4 sw=4 sts=4 et
+autocmd BufRead,BufNewFile *.c   set ts=4 sw=4 sts=4 et
+autocmd BufRead,BufNewFile *.cpp set ts=4 sw=4 sts=4 et
+autocmd BufRead,BufNewFile *.cxx set ts=4 sw=4 sts=4 et
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" All Hot Keys Mapping
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"
+" common key mappings
+"
+
+nnoremap Y                          y$
+
+    nmap <HOME>                     ^
+    imap <HOME>                     <C-O>^
+
+nnoremap /                          /\v
+vnoremap /                          /\v
+
+nnoremap &                          :&&<CR>
+xnoremap &                          :&&<CR>
+
+"
+" <leader> mappings
+"
+
+let mapleader = "\\"
+
+" \rn to toggle relativenumber
+nnoremap <silent> <leader>rn         :set relativenumber!<CR>
+
+" clear the search highlighting
+     map <silent> <leader>l          :noh<CR>
+
+" Useful mappings for managing tabs
+     map <silent> <leader>tn         :tabnew<CR>
+     map <silent> <leader>to         :tabonly<CR>
+     map <silent> <leader>tc         :tabclose<CR>
+     map <silent> <leader>tm         :tabmove
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+     map <leader>te                  :tabedit <C-R>=expand("%:p:h")<CR>/<CR>
+
+" Copy and Paste
+    nmap <leader>y                  "+y
+    nmap <leader>Y                  "+yy
+vnoremap <leader>y                  "+y
+    nmap <leader>p                  "+p
+    nmap <leader>P                  "+P
+vnoremap <leader>p                  "+p
+
+" search the word under cursor in this file.
+    nmap <silent> <leader>g         *:vimgrep <cword> %<CR>
+    nmap <leader>q                  :q<CR>
+    nmap <leader>w                  :w<CR>
+     map <leader>sudo               :w !sudo tee % > /dev/null<CR>
+    nmap <leader>Q                  :qa!<CR>
+ noremap <silent> <leader>sp        :set spell!<CR>
+    nmap <silent> <leader>cd        :cd %:p:h<CR>
+    nmap <silent> <leader>bn        :bn<CR>
+    imap <silent> <leader>bn   <C-O>:bn<CR>
+    nmap <silent> <leader>bp        :bp<CR>
+    imap <silent> <leader>bp   <C-O>:bp<CR>
+    nmap <silent> <leader>bd        :bd<CR>
+    imap <silent> <leader>bd   <C-O>:bd<CR>
+
+" backspace in Visual mode deletes selection
+vnoremap <BS>                       d
+
+" use \1 to toggle QFix window
+" use \2 to toggle EasyBuffer window
+" use \3 to toggle YankRing window.
+" use \4 to toggle Gundo window.
+nnoremap <silent> <leader>1          :QFix<CR>
+nnoremap <silent> <leader>2          :EasyBufferToggle<CR>
+nnoremap <silent> <leader>3          :YRShow<CR>
+nnoremap <silent> <leader>4          :GundoToggle<CR>
+
+" Ycm hot keys.
+nnoremap <leader>jd                  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <leader>ji                  :YcmCompleter GoToInclude<CR>
+nnoremap <leader>jf                  :YcmCompleter FixIt<CR>
+
+" A plugin hotkeys.
+nnoremap <silent> <leader>aa         :A<CR>
+nnoremap <silent> <leader>av         :AV<CR>
+nnoremap <silent> <leader>as         :AS<CR>
+nnoremap <silent> <leader>at         :AT<CR>
+
+" easy align plugin hotkeys.
+vnoremap <silent> <Enter>           :EasyAlign<CR>
+
+" vim-signature plugin hotkeys.
+noremap <silent> <leader>mt         :SignatureToggle<CR>
+
+"
+" Function Keys ( F1 ~ F12 ) mappings
+"
+
+" reload vim rc file.
+     map <C-F2>                      :so $HOME/.vim/vimrc<CR>
+    imap <C-F2>                 <C-O>:so $HOME/.vim/vimrc<CR>
+
+" 用 F4 , S-F4 來切到下一個或上一個錯誤的位置
+" 可以用 :copen 開啟 QuickFix Window
+     map <silent> <F4>               :cn<CR>
+    imap <silent> <F4>          <C-O>:cn<CR>
+    " not work <S-F4>, don't use it.
+     "map <silent> <S-F4>             :cp<CR>
+    "imap <silent> <S-F4>        <C-O>:cp<CR>
+    nmap <silent> <leader>cn         :cn<CR>
+    nmap <silent> <leader>cp         :cp<CR>
+
+" Open and close all the three plugins (srcexpl, taglist, NERDTree) on the same time
+    nmap <C-F8>                      :TrinityToggleAll<CR>
+    nmap <C-F9>                      :TrinityToggleSourceExplorer<CR>
+    nmap <C-F10>                     :TrinityToggleTagList<CR>
+    nmap <C-F11>                     :TrinityToggleNERDTree<CR>
+
+" Toggle the Tagbar plugin, better than taglist plugin.
+nnoremap <silent> <F3>               :TagbarToggle<CR>
+
+" termdebug hotkeys
+nnoremap <silent> <F9>               :Break<CR>
+nnoremap <silent> <C-F9>             :Clear<CR>
+nnoremap <silent> <F5>               :Continue<CR>
+nnoremap <silent> <F10>              :Over<CR>
+nnoremap <silent> <F11>              :Step<CR>
+
+
+"
+" ATL Keys mappings.
+"
+
+"" because YouCompleteMe has taken TAB key, we need to use another key for SnipMate plugin
+    "imap          <A-j>              <esc>a<Plug>snipMateNextOrTrigger
+    "smap          <A-j>              <Plug>snipMateNextOrTrigger
+
+" use Atl-Up Atl-Down to swap two lines.
+    nmap <silent> <M-Up>             :.m.-2<CR>
+    nmap <silent> <M-Down>           :.m.+1<CR>
+    imap <silent> <M-Up>        <C-O>:.m.-2<CR>
+    imap <silent> <M-Down>      <C-O>:.m.+1<CR>
+
+" use Atl-Left Atl-Right to switch to previous or next buffer.
+    nmap <silent> <M-Left>           :bp<CR>
+    nmap <silent> <M-Right>          :bn<CR>
+    imap <silent> <M-Left>      <C-O>:bp<CR>
+    imap <silent> <M-Right>     <C-O>:bn<CR>
+
+"
+" Tab Keys mappings.
+"
+" never map <TAB> key because vim use <C-I> as <TAB> key.
+" if we map <TAB> key, the <C-i> don't return to the latest jump position.
+
+"
+" CTRL Keys Mapping
+"
+
+" easy split navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Use CTRL-S for saving, also in Insert mode
+ noremap <C-S>             :update<CR>
+vnoremap <C-S>        <C-C>:update<CR>
+inoremap <C-S>        <C-O>:update<CR>
+
+"
+" abbreviate list
+"
+
+ab modeline // vim: set ts=4 sw=4 et:
+
+ab #i" #include "
+ab #i< #include <
+ab #i- //--------------------------------------------------------------------------------------------------
+
+ab #i= //==================================================================================================
+
+ab #i/ ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+ab dowhile do<CR>{<CR><CR>} while(0);
+
+"
+" highlights
+"
+
+" highlight the redundant space.
+match ErrorMsg '\s\+$'
+
+"
+" function list
+"
+
+" Removes trailing spaces
+function! TrimWhiteSpace()
+    %s/\s\+$//e
+endfunction
+
+nnoremap <silent> <Leader>rts :call TrimWhiteSpace()<CR>
+
+nnoremap <leader>cd             :cd %:p:h<CR>:pwd<CR>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Additional Settings for file type: Python and CPP
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+autocmd FileType c              call SetupCpp()
+autocmd FileType C              call SetupCpp()
+autocmd FileType cpp            call SetupCpp()
+autocmd FileType CPP            call SetupCpp()
+
+autocmd FileType python         call SetupPython()
+
+"autocmd FileType xml                exe ":silent 1,$!tidy --input-xml true --indent yes -q"
+"autocmd FileType html,html,xhtml    exe ":silent 1,$!tidy --indent yes -q"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Python functions
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+func! SetupPython()
+    if exists( "s:setup_python_flag" ) && s:setup_python_flag == 1
+        return
+    endif
+
+    let s:setup_python_flag = 1
+
+    call SetupPythonHotKeys()
+
+    setlocal nowrap
+    "setlocal spell
+
+    " note: python2 default encoding is ascii, python3 is utf-8
+    ab pyencoding # -*- encoding: utf-8 -*-
+    "
+    " make program settings
+    "
+
+    setlocal makeprg=python3\ %
+    setlocal errorformat=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+
+endf
+
+func! SetupPythonHotKeys()
+
+    " search the word under cursor in this project
+    " add option 'j' to not jump to the first position.
+     map <buffer> <C-K><C-F>                 :vimgrep /<C-R><C-W>/j **/*.py<CR>
+    imap <buffer> <C-K><C-F>            <C-O>:vimgrep /<C-R><C-W>/j **/*.py<CR>
+
+endf
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Common CPP functions
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+func! SetupCpp()
+    if exists( "s:setup_cpp_flag" ) && s:setup_cpp_flag == 1
+        return
+    endif
+
+    let s:setup_cpp_flag = 1
+
+    "setlocal spell
+    call SetupCppCompiler()
+    call SetupCppHotKeys()
+endf
+
+func! SetupCppHotKeys()
+
+    " search the word under cursor in this project.
+    " add option 'j' to not jump to the first position.
+     map <buffer> <C-K><C-F>                 :vimgrep /<C-R><C-W>/j **/*.cpp **/*.h<CR>
+    imap <buffer> <C-K><C-F>            <C-O>:vimgrep /<C-R><C-W>/j **/*.cpp **/*.h<CR>
+
+    " compile the cpp project or file
+     map <buffer> <F7>                       :call MakeCppProject()<CR><CR>
+    imap <buffer> <F7>                  <C-O>:call MakeCppProject()<CR><CR>
+
+    " run the cpp project
+     map <buffer> <C-F5>                     :call RunCppProject()<CR>
+    imap <buffer> <C-F5>                <C-O>:call RunCppProject()<CR>
+     map <buffer> <leader><F5>               :call RunCppProject()<CR>
+    imap <buffer> <leader><F5>          <C-O>:call RunCppProject()<CR>
+     map <buffer> <leader>r                  :call RunCppProject()<CR>
+    imap <buffer> <leader>r             <C-O>:call RunCppProject()<CR>
+
+     map <leader>rr                          :!<C-R>=expand("%:t:r")<CR><CR>
+
+endf
+
+func! SetupCppCompiler()
+    compiler gcc
+
+    if g:make_output == ""
+        let g:make_output = expand("%:r")
+    endif
+endf
+
+func! MakeCppProject()
+    execute "update"
+    execute "make!"
+endf
+
+func! RunCppProject()
+    silent execute "!./" . g:make_output
+endf

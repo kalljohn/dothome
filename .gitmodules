@@ -1,0 +1,18 @@
+[submodule "modules/gdb-dashboard"]
+	path = modules/gdb-dashboard
+	url = https://github.com/cyrus-and/gdb-dashboard
+[submodule "modules/gdbinit"]
+	path = modules/gdbinit
+	url = https://github.com/gdbinit/Gdbinit
+[submodule "config/tmux/plugins/tmux-copycat"]
+	path = config/tmux/plugins/tmux-copycat
+	url = https://git::@github.com/tmux-plugins/tmux-copycat
+[submodule "config/tmux/plugins/tmux-cpu"]
+	path = config/tmux/plugins/tmux-cpu
+	url = https://git::@github.com/tmux-plugins/tmux-cpu
+[submodule "config/tmux/plugins/tmux-sensible"]
+	path = config/tmux/plugins/tmux-sensible
+	url = https://git::@github.com/tmux-plugins/tmux-sensible
+[submodule "config/tmux/plugins/tmux-sidebar"]
+	path = config/tmux/plugins/tmux-sidebar
+	url = https://git::@github.com/tmux-plugins/tmux-sidebar

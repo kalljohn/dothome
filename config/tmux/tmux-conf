@@ -1,0 +1,93 @@
+# Set the prefix from C-b to C-a
+set -g prefix C-a
+
+# Ensure that we can send Ctrl-A to other apps
+bind C-a send-prefix
+
+#
+# my local tmux conf
+#
+
+set -g base-index 1
+set -g pane-base-index 1
+
+bind r source-file ~/.tmux.conf \; display "reloaded!"
+
+# split windows like vim
+# vim's definition of a horizontal/vertical split is reversed from tmux's
+bind s split-window -v
+bind v split-window -h
+
+# move around panes with hjkl, as one would in vim after pressing ctrl-w
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# resize panes like vim
+# feel free to change the "1" to however many lines you want to resize by, only
+# one at a time can be slow
+bind < resize-pane -L 3
+bind > resize-pane -R 3
+bind - resize-pane -D 3
+bind + resize-pane -U 3
+
+# bind : to command-prompt like vim
+# this is the default in tmux already
+bind : command-prompt
+
+# vi-style controls for copy mode
+setw -g mode-keys vi
+
+# ctrl-a + escape to enter copy mode
+unbind [
+bind Escape copy-mode
+# ctrl-a + p to paste selection
+unbind p
+bind p paste-buffer
+# use v to do selection, use y to copy
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-selection
+
+# Smart pane switching with awareness of vim splits
+is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
+bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+# this bind is not compatible with tmux 3.0+
+#bind -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+
+set -g mouse on
+
+set -g default-terminal "screen-256color"
+
+# colors
+set  -g status-style fg=white,bg=black,default
+setw -g window-status-style fg=cyan,bg=default,dim
+setw -g window-status-current-style fg=white,bg=red,bright
+set  -g message-style fg=white,bg=black,bright
+
+set -g pane-border-style fg=green,bg=black
+set -g pane-active-border-style fg=white,bg=red
+
+# status bar
+set -g status-left-length 40
+set -g status-left "#[fg=green]Session: #S #[fg=yellow]#I #[fg=cyan]#P"
+set -g status-right '#[fg=red]#{cpu_percentage} | #[fg=cyan]#(TZ="Asia/Taipei" date +%%m-%%e\ %%H:%%M) '
+set -g status-justify centre
+
+
+unbind Up
+unbind Down
+#bind Up new-window -d -n tmp \; swap-pane -s tmp.1 \; select-window -t tmp
+#bind Down last-window \; swap-pane -s tmp.1 \; kill-window -t tmp
+
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-cpu'
+set -g @plugin 'tmux-plugins/tmux-sidebar'
+set -g @plugin 'tmux-plugins/tmux-copycat'
+
+# initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
