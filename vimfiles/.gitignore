@@ -1,7 +1,5 @@
 **.pyc
 
-autoload/plug.vim
-
 vimrc
 bundle/*/
 .netrwhist
