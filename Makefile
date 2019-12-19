@@ -234,7 +234,7 @@ vim: .vim-ppa .vim-apt vim-conf
 
 
 .vim-apt:
-	$(APT_INSTALL) ctags cscope tidy libxml2-utils && $(APT_INSTALL_FORCE) vim
+	$(APT_INSTALL) ctags cscope tidy libxml2-utils && $(APT_INSTALL_UPDATE) vim
 
 
 vim-conf:
