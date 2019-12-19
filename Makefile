@@ -1,27 +1,27 @@
-# vim: set ts=4 sw=4 sts=4 ai
+# vim: ts=4 sw=4 sts=4 ai
 
-PREFIX 			= /usr/local
+PREFIX = /usr/local
 
 USER   = $(shell id -u -n)
 
 ifeq ($(USER),root)
-	SUDO 				=
-	APT_INSTALL    		= apt-get install -y --no-install-recommends --no-upgrade
-	APT_INSTALL_UPDATE 	= apt-get install -y --no-install-recommends
-	APT_ADD_REPOSITORY 	= add-apt-repository -y
-	APT_UPDATE          = apt-get update
-	PREFIX_LOCAL 	    = $(PREFIX)
-	MAKE_INSTALL        = make install
-	MAKE_INSTALL_LOCAL  = $(MAKE_INSTALL)
+	SUDO               =
+	APT_INSTALL        = apt-get install -y --no-install-recommends --no-upgrade
+	APT_INSTALL_UPDATE = apt-get install -y --no-install-recommends
+	APT_ADD_REPOSITORY = add-apt-repository -y
+	APT_UPDATE         = apt-get update
+	PREFIX_LOCAL       = $(PREFIX)
+	MAKE_INSTALL       = make install
+	MAKE_INSTALL_LOCAL = $(MAKE_INSTALL)
 else
-	SUDO                = sudo
-	APT_INSTALL    		= sudo apt-get install -y --no-install-recommends --no-upgrade
-	APT_INSTALL_UPDATE  = sudo apt-get install -y --no-install-recommends
-	APT_ADD_REPOSITORY 	= sudo add-apt-repository -y
-	APT_UPDATE          = sudo apt-get update
-	PREFIX_LOCAL 	    = $(HOME)/.local
-	MAKE_INSTALL        = sudo make install
-	MAKE_INSTALL_LOCAL  = make install
+	SUDO               = sudo
+	APT_INSTALL        = sudo apt-get install -y --no-install-recommends --no-upgrade
+	APT_INSTALL_UPDATE = sudo apt-get install -y --no-install-recommends
+	APT_ADD_REPOSITORY = sudo add-apt-repository -y
+	APT_UPDATE         = sudo apt-get update
+	PREFIX_LOCAL       = $(HOME)/.local
+	MAKE_INSTALL       = sudo make install
+	MAKE_INSTALL_LOCAL = make install
 endif
 
 RELEASE_VERSION = $(shell cut -d ' ' -f 2 /etc/issue | cut -d . -f 1)
@@ -218,7 +218,7 @@ git-conf:
 # vim
 #
 
-.PHONY: vim .vim-ppa vim-apt vim-conf
+.PHONY: vim .vim-ppa .vim-apt vim-conf
 
 vim: .vim-ppa .vim-apt vim-conf
 
@@ -234,8 +234,7 @@ vim: .vim-ppa .vim-apt vim-conf
 
 
 .vim-apt:
-	$(APT_INSTALL) ctags cscope tidy libxml2-utils
-	$(APT_INSTALL_UPDATE) vim
+	$(APT_INSTALL_UPDATE) vim xxd ctags cscope tidy
 
 
 vim-conf:
@@ -313,7 +312,7 @@ fish-conf:
 	-$(RM) ~/.config/fish/config.fish
 	ln -s -f `pwd`/config/fish/config.fish ~/.config/fish/
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-	fish && fisher
+	fish -c "fisher"
 
 
 #
