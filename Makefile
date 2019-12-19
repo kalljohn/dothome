@@ -238,8 +238,9 @@ vim: .vim-ppa .vim-apt vim-conf
 
 
 vim-conf:
-	cd vimfiles && ./setup-plugins.sh
 	[ -e ~/.vim ] || ln -s -f `pwd`/vimfiles ~/.vim
+	([ ! -e ~/.vimrc ] || rm ~/.vimrc) && ln -s -f `pwd`/_vimrc ~/.vimrc
+	cd vimfiles && ./setup-plugins.sh
 
 
 #
