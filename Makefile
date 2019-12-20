@@ -5,23 +5,23 @@ PREFIX = /usr/local
 USER   = $(shell id -u -n)
 
 ifeq ($(USER),root)
-	SUDO               =
-	APT_INSTALL        = apt-get install -y --no-install-recommends --no-upgrade
-	APT_INSTALL_UPDATE = apt-get install -y --no-install-recommends
-	APT_ADD_REPOSITORY = add-apt-repository -y
-	APT_UPDATE         = apt-get update
-	PREFIX_LOCAL       = $(PREFIX)
-	MAKE_INSTALL       = make install
-	MAKE_INSTALL_LOCAL = $(MAKE_INSTALL)
+	SUDO                =
+	APT_INSTALL         = apt-get install -y --no-install-recommends --no-upgrade
+	APT_INSTALL_UPGRADE = apt-get install -y --no-install-recommends
+	APT_ADD_REPOSITORY  = add-apt-repository -y
+	APT_UPDATE          = apt-get update
+	PREFIX_LOCAL        = $(PREFIX)
+	MAKE_INSTALL        = make install
+	MAKE_INSTALL_LOCAL  = $(MAKE_INSTALL)
 else
-	SUDO               = sudo
-	APT_INSTALL        = sudo apt-get install -y --no-install-recommends --no-upgrade
-	APT_INSTALL_UPDATE = sudo apt-get install -y --no-install-recommends
-	APT_ADD_REPOSITORY = sudo add-apt-repository -y
-	APT_UPDATE         = sudo apt-get update
-	PREFIX_LOCAL       = $(HOME)/.local
-	MAKE_INSTALL       = sudo make install
-	MAKE_INSTALL_LOCAL = make install
+	SUDO                = sudo
+	APT_INSTALL         = sudo apt-get install -y --no-install-recommends --no-upgrade
+	APT_INSTALL_UPGRADE = sudo apt-get install -y --no-install-recommends
+	APT_ADD_REPOSITORY  = sudo add-apt-repository -y
+	APT_UPDATE          = sudo apt-get update
+	PREFIX_LOCAL        = $(HOME)/.local
+	MAKE_INSTALL        = sudo make install
+	MAKE_INSTALL_LOCAL  = make install
 endif
 
 RELEASE_VERSION = $(shell cut -d ' ' -f 2 /etc/issue | cut -d . -f 1)
@@ -236,7 +236,7 @@ vim: .vim-ppa .vim-apt vim-conf
 
 
 .vim-apt:
-	$(APT_INSTALL_UPDATE) vim xxd ctags cscope tidy
+	$(APT_INSTALL_UPGRADE) vim xxd ctags cscope tidy
 
 
 vim-conf:
