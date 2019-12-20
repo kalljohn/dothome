@@ -102,6 +102,8 @@ all: .init .mkdir base dev tool
 .mkdir:
 	@echo make build folder ...
 	[ -d ./build ] || mkdir ./build
+	@echo make ~/.ssh folder ...
+	[ -d ~/.ssh ] || mkdir ~/.ssh
 
 
 ################################################################################
@@ -184,7 +186,7 @@ endif
 
 .PHONY: tool
 
-tool: git vim tmux fish fzf ripgrep
+tool: git vim tmux fzf ripgrep fish
 
 
 # git
@@ -228,8 +230,8 @@ vim: .vim-ppa .vim-apt vim-conf
 	@[ $(HAS_PPA_VIM) -ne 0 ] || \
 	( \
 		echo add vim ppa ; \
-		$(APT_ADD_REPOSITORY) ppa:jonathonf/vim ; \
-	   	$(APT_UPDATE) \
+		-$(APT_ADD_REPOSITORY) ppa:jonathonf/vim ; \
+	   	-$(APT_UPDATE) \
 	)
 
 
@@ -298,12 +300,12 @@ fish: .fish-apt fish-conf
 	@[ $(HAS_PPA_FISH) -ne 0 ] || \
 	( \
 		echo add fish ppa ; \
-		$(APT_ADD_REPOSITORY) ppa:fish-shell/release-3 ; \
-	   	$(APT_UPDATE) \
+		-$(APT_ADD_REPOSITORY) ppa:fish-shell/release-3 ; \
+	   	-$(APT_UPDATE) \
 	)
 
 
-fish-conf:
+fish-conf: .mkdir
 	echo mkdir ~/.config/fish/functions folder ; mkdir -p ~/.config/fish/functions
 	cp -af `pwd`/config/fish/functions/* ~/.config/fish/functions/
 	-$(RM) ~/.config/fish/fishfile
@@ -311,7 +313,7 @@ fish-conf:
 	-$(RM) ~/.config/fish/config.fish
 	ln -s -f `pwd`/config/fish/config.fish ~/.config/fish/
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
-	fish -c "fisher"
+	-/usr/bin/fish -c "fisher"
 	$(SUDO) chsh -s /usr/bin/fish $(USER)
 
 
