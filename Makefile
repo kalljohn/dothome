@@ -304,8 +304,6 @@ fish: .fish-apt fish-conf
 
 
 fish-conf:
-	#@echo change default shell to fish shell.
-	#$(SUDO) chsh -s /usr/bin/fish $(USER)
 	echo mkdir ~/.config/fish/functions folder ; mkdir -p ~/.config/fish/functions
 	cp -af `pwd`/config/fish/functions/* ~/.config/fish/functions/
 	-$(RM) ~/.config/fish/fishfile
@@ -314,6 +312,7 @@ fish-conf:
 	ln -s -f `pwd`/config/fish/config.fish ~/.config/fish/
 	curl https://git.io/fisher --create-dirs -sLo ~/.config/fish/functions/fisher.fish
 	fish -c "fisher"
+	$(SUDO) chsh -s /usr/bin/fish $(USER)
 
 
 #
