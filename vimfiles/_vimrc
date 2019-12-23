@@ -91,7 +91,7 @@ Plug 'sukima/xmledit', { 'for': 'xml' }
 
 " for YouCompleteMe
 
-Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer --clang-tidy' }
+Plug 'Valloric/YouCompleteMe', { 'do': 'python3 ./install.py --clang-completer' }
 Plug 'scrooloose/syntastic'
 
 " for tags
