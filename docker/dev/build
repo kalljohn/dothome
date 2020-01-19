@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ ! -e Dockerfile.$1 ]
+    then
+    echo "error: Dockerfile.$1 is not found"
+    exit 1
+fi
+
+cp ~/.ssh/id_rsa ~/.ssh/config ./
+
+docker build --no-cache -f Dockerfile.$1 -t 10.64.105.170:6088/$1:latest .
+
+rm id_rsa config

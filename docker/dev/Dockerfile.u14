@@ -1,0 +1,20 @@
+# vim: ts=4 sw=4 sts=4 et ai
+
+FROM 10.64.105.170:6088/base:14.04
+
+WORKDIR /root
+
+RUN \
+    sed -i 's%archive.ubuntu.com%free.nchc.org.tw%' /etc/apt/sources.list && \
+    apt update && \
+    apt install -y --no-upgrade --no-install-recommends \
+        sudo ssh wget curl ca-certificates git make \
+    && \
+    git config --global user.name "Benson Lin" && \
+    git config --global user.email "bensonlin@qnap.com" && \
+    ln -s -f /usr/bin/python3.5 /usr/bin/python3 && \
+    git clone https://github.com/kalljohn/dothome.git /root/.home && \
+    (cd /root/.home && ./bootstrap.sh && make) && \
+    rm -rf /root/.home/build && \
+    rm /root/.home/vimfiles/bundle/YouCompleteMe/third_party/ycmd/clang_archives/* && \
+    rm -rf /var/lib/apt/lists/*
