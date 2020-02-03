@@ -34,7 +34,7 @@ def GetCompilerIncludeDirs():
         proc.wait()
         if proc.returncode == 0:
             gcc_version = bytes.decode(proc.stdout.readline().splitlines()[0], errors='ignore')
-            dirs += [ 
+            dirs += [
                 '/usr/include/c++/' + gcc_version,
                 '/usr/include/x86_64-linux-gnu/c++/' + gcc_version,
                 '/usr/lib/gcc/x86_64-linux-gnu/' + gcc_version + '/include',
@@ -55,21 +55,6 @@ def Settings(**kwargs):
     return {
         'flags': flags
     }
-    # return {
-        # 'flags': [
-            # '-x', 'c++',
-            # '-std=c++14',
-            # '-D_DEBUG',
-            # '-Wall',
-            # '-Wextra',
-            # '-fexceptions',
-            # '-I', '/usr/include',
-            # '-I', '/usr/local/include',
-            # '-I', '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/c++/v1',
-            # '-I', '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include',
-            # ]
-        # }
-
 
 if __name__ == "__main__":
     print("default settings: ", Settings())
