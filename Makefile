@@ -30,7 +30,7 @@ CORES = $(shell cat /proc/cpuinfo | awk '/^processor/{print $3}' | wc -l)
 
 WGET = wget --no-check-certificate
 
-CMAKE_VERSION = 3.16.1
+CMAKE_VERSION = 3.17.0
 
 TMUX_VERSION = 3.0a
 TMUX_TAR_FILENAME = tmux-$(TMUX_VERSION).tar.gz
