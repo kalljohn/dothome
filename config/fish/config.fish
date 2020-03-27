@@ -71,7 +71,7 @@ alias more=$PAGER
 #set -g -x LANGUAGE en_US.UTF-8
 #set -g -x LC_ALL en_US.UTF-8
 
-set -g -x TZ `Asia/Taipei`
+set -g -x TZ 'Asia/Taipei'
 
 umask 022
 
