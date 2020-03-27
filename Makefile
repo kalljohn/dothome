@@ -32,7 +32,7 @@ WGET = wget --no-check-certificate
 
 CMAKE_VERSION = 3.17.0
 
-TMUX_VERSION = 3.0a
+TMUX_VERSION = 3.1
 TMUX_TAR_FILENAME = tmux-$(TMUX_VERSION).tar.gz
 
 TOOLS += sudo wget curl most less dos2unix tree
