@@ -47,7 +47,7 @@ TOOLS += openssh-server openssh-client sshpass
 TOOLS += htop
 TOOLS += bash-completion
 TOOLS += bzip2 xz-utils p7zip-full
-TOOLS += python python-pip
+#TOOLS += python python-pip
 TOOLS += python3 python3-dev python3-pip
 TOOLS += aptitude
 
